@@ -1,0 +1,12 @@
+[package]
+name = "rust-blog"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.7.2"
+sqlx = { version = "0.7.3", features = ["runtime-tokio-rustls", "sqlite"] }
+tokio = { version = "1.35.0", features = ["full"] }
+tera = "1.19.1"

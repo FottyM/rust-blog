@@ -1,0 +1,16 @@
+version: "3"
+services:
+  blog:
+    build: .
+    image: blog
+    container_name: blog
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - cargo-cache:/usr/local/cargo/registry
+      - data.db:/app/data.db
+
+volumes:
+  cargo-cache:
+  data.db:
