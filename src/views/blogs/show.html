@@ -1,0 +1,70 @@
+{% extends "layout/base.html" %}
+{% block title %} {{ post.blog.title }} {% endblock %}
+{% block content %}
+<div class="text-start my-0">
+  <a href="/" class="text-gray-400 hover:text-gray-300">
+    ← Back to Blog
+  </a>
+</div>
+<article class="bg-gray-800 text-white shadow-lg rounded-lg p-6 mb-4">
+  <img src="https://placehold.co/600x200" alt="Hero image for {{ post.blog.title }}" class="w-full h-auto object-cover">
+  <div class="text-start pt-2">
+    <h1 class="text-3xl font-bold text-start mb-2">{{ post.blog.title }}</h1>
+    <p class="text-gray-400 text-start text-xl mb-6">{{ post.blog.publish_date | date(format="%d.%m.%Y") }}</p>
+  </div>
+  <div class="prose prose-invert max-w-none mt-4 mb-4">{{ post.blog.content | safe }}</div>
+  <div class="flex items-center mt-4 mb-4">
+    <img src="https://placehold.co/20x20" alt="{{ post.blog.author_id }}" class="w-10 h-10 rounded-full mr-2">
+    <p>Author: SBF {{ post.blog.author_id }}</p>
+  </div>
+  <p class="text-gray-600 text-sm">Category: {{ post.blog.category_id }}</p>
+  <div class="flex flex-wrap gap-2 mt-2">
+    {% for tag in post.tags %}
+    <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+      {{ tag }}
+    </span>
+    {% endfor %}
+  </div>
+  <section class="mt-6">
+    <h3 class="text-xl font-bold mb-4">Comments ({{ post.comments | length }})</h3>
+    <div class="space-y-4">
+      {% for comment in post.comments %}
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <p class="text-gray-800"><strong>{{ comment.author }}</strong> says:</p>
+        <p class="text-gray-600">{{ comment.content }}</p>
+      </div>
+      {% else %}
+      <p>No comments yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="text-xl font-bold mb-4">Leave a Comment</h3>
+    <form action="/post/{{ post.blog.id }}/comment" method="post" hx-post="/post/{{ post.blog.id }}/comment"
+      hx-trigger="submit" class="bg-gray-700 rounded-lg p-6">
+      <div class="mb-4">
+        <input type="text" name="name" placeholder="Your Name" required
+          class="w-full p-2 border border-gray-500 bg-gray-700 text-white rounded-md">
+      </div>
+      <div class="mb-4">
+        <input type="email" name="email" placeholder="Your Email" required
+          class="w-full p-2 border border-gray-500 bg-gray-700 text-white rounded-md">
+      </div>
+      <div class="mb-4">
+        <textarea name="comment" rows="4" placeholder="Write your comment here..." required
+          class="w-full p-2 border border-gray-500 bg-gray-700 text-white rounded-md"></textarea>
+      </div>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Post Comment
+      </button>
+    </form>
+  </section>
+
+</article>
+<div class="text-center my-8">
+  <a href="/" class="text-gray-400 hover:text-gray-300">
+    ← Back to Blog
+  </a>
+</div>
+{% endblock %}

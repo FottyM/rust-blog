@@ -1,0 +1,31 @@
+{% extends "layout/base.html" %}
+{% block title %}Blog{% endblock %}
+{% block welcome_title %}
+<span>Welcome to my blog! | </span> {{ now() | date(format="%d.%m.%Y") }}
+{% endblock %}
+{% block content %}
+<section class="mb-4">
+  <form hx-get="/search" hx-target="#search-results" hx-trigger="submit" class="w-full flex">
+    <input type="text" name="query" placeholder="Search blogs..."
+      class="flex-grow p-2 border border-r-0 rounded-l-md text-gray-700">
+    <button type="submit" class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-r-md">
+      Search
+    </button>
+  </form>
+</section>
+<section class="space-y-6">
+  {% for post in posts %}
+  <article class="bg-card p-4 rounded-lg shadow-md flex flex-col md:flex-row">
+    <img src="https://placehold.co/40x40" alt="Author's picture" class="w-24 h-24 rounded-full mr-4">
+    <div>
+      <h2 class="text-2xl text-soul-red mb-2">{{ post.title }}</h2>
+      <p class="text-sm text-gray-400 mb-4">By {{ post.author_id }} on {{ post.publish_date }}</p>
+      <p class="mb-4">{{ post.content }}</p>
+      <a href="blogs/{{ post.id | as_str }}" class="text-teal hover:underline hover:cursor-pointer">Read more...</a>
+    </div>
+  </article>
+  {% else %}
+  <p>No posts have been published yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

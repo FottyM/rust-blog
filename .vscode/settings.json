@@ -1,0 +1,8 @@
+{
+  "cSpell.words": [
+    "autoescape",
+    "axum",
+    "tera"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
+}

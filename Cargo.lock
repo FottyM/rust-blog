@@ -1403,6 +1403,9 @@ name = "rust-blog"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "lazy_static",
+ "serde",
+ "serde_json",
  "sqlx",
  "tera",
  "tokio",
