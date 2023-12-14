@@ -4,13 +4,19 @@ services:
     build: .
     image: blog
     container_name: blog
+    platform: linux/amd64
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - .:/usr/src/app
       - cargo-cache:/usr/local/cargo/registry
-      - data.db:/app/data.db
+      - database:/usr/src/app/database
+    env_file:
+      - .env
+    restart: always
+    command: |
+      cargo run
 
 volumes:
   cargo-cache:
-  data.db:
+  database:
