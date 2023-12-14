@@ -99,7 +99,7 @@ async fn get_blog(Path(id): Path<u32>) -> impl IntoResponse {
     }
 }
 
-pub fn get_blogs_routes() -> axum::Router {
+pub fn get_blogs_routes() -> Router {
     Router::new()
         .route("/", get(get_blogs))
         .route("/blogs", get(get_blogs))
