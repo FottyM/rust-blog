@@ -1,12 +1,25 @@
 CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY NOT NULL,
   username VARCHAR(255) NOT NULL UNIQUE,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  email TEXT NOT NULL,
-  role VARCHAR(5) CHECK (role IN ('admin', 'user')),
+  email TEXT NOT NULL UNIQUE,
+  role VARCHAR(5) CHECK (role IN ('admin', 'user')) NOT NULL DEFAULT 'user',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP
 );
+
+
+CREATE TRIGGER IF NOT EXISTS update_updated_at
+  AFTER UPDATE ON users
+  WHEN NEW.deleted_at IS NULL
+BEGIN
+  UPDATE users
+  SET updated_at = CURRENT_TIMESTAMP
+  WHERE id = NEW.id;
+END;
+
+CREATE UNIQUE INDEX IF NOT EXISTS users_id_idx ON users (id) WHERE deleted_at IS NULL;
+
