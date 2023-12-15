@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS blogs (
   title VARCHAR(255) NOT NULL UNIQUE,
   content TEXT NOT NULL,
   published_at TIMESTAMP,
-  created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   author_id INTEGER NOT NULL,
   category_id INTEGER,
   status VARCHAR(5) CHECK (status IN ('draft', 'pending', 'published', 'archived'))
