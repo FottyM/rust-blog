@@ -8,18 +8,17 @@ use tera::Context;
 
 use crate::views::TEMPLATES;
 
-async fn about() -> impl IntoResponse {
+async fn render_contact() -> impl IntoResponse {
     let tera = TEMPLATES.clone();
-
-    match tera.render("about/index.html", &Context::new()) {
+    match tera.render("contact/index.html", &Context::new()) {
         Ok(rendered) => Html(rendered).into_response(),
         Err(err) => {
-            println!("Error rendering template: {}", err);
+            tracing::warn!("Error rendering template: {}", err);
             StatusCode::NOT_FOUND.into_response()
         }
     }
 }
 
-pub fn get_about_routes() -> Router {
-    Router::new().route("/about", get(about))
+pub fn get_contact_routes() -> Router {
+    Router::new().route("/contact", get(render_contact))
 }

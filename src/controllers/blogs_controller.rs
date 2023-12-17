@@ -10,7 +10,7 @@ use tera::Context;
 
 use serde::{Deserialize, Serialize};
 
-async fn get_blogs() -> impl IntoResponse {
+async fn render_blogs() -> impl IntoResponse {
     let tera = TEMPLATES.clone();
 
     let mut context = Context::new();
@@ -36,7 +36,7 @@ async fn get_blogs() -> impl IntoResponse {
     match tera.render("blogs/index.html", &context) {
         Ok(rendered) => Html(rendered).into_response(),
         Err(err) => {
-            println!("Error rendering template: {}", err);
+            tracing::warn!("Error rendering template: {}", err);
             StatusCode::NOT_FOUND.into_response()
         }
     }
@@ -59,7 +59,7 @@ struct Post {
     tags: Vec<String>,
 }
 
-async fn get_blog(Path(id): Path<u32>) -> impl IntoResponse {
+async fn render_blog(Path(id): Path<u32>) -> impl IntoResponse {
     // format!("Blog {}", id).into_response()
     let tera = TEMPLATES.clone();
     let mut context = Context::new();
@@ -90,7 +90,7 @@ async fn get_blog(Path(id): Path<u32>) -> impl IntoResponse {
     match tera.render("blogs/show.html", &context) {
         Ok(rendered) => Html(rendered).into_response(),
         Err(err) => {
-            println!("Error rendering template: {}", err);
+            tracing::warn!("Error rendering template: {}", err);
             StatusCode::NOT_FOUND.into_response()
         }
     }
@@ -98,7 +98,7 @@ async fn get_blog(Path(id): Path<u32>) -> impl IntoResponse {
 
 pub fn get_blogs_routes() -> Router {
     Router::new()
-        .route("/", get(get_blogs))
-        .route("/blogs", get(get_blogs))
-        .route("/blogs/:id", get(get_blog))
+        .route("/", get(render_blogs))
+        .route("/blogs", get(render_blogs))
+        .route("/blogs/:id", get(render_blog))
 }

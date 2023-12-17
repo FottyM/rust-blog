@@ -6,7 +6,7 @@ use axum::{
 
 use crate::views::TEMPLATES;
 
-async fn get_not_found() -> impl IntoResponse {
+async fn render_not_found() -> impl IntoResponse {
     let tera = TEMPLATES.clone();
 
     match tera.render("404.html", &tera::Context::new()) {
@@ -15,12 +15,12 @@ async fn get_not_found() -> impl IntoResponse {
             Html(rendered).into_response()
         }
         Err(err) => {
-            println!("Error rendering template: {}", err);
+            tracing::error!("Error rendering template: {}", err);
             StatusCode::INTERNAL_SERVER_ERROR.into_response()
         }
     }
 }
 
 pub fn get_not_found_routes() -> Router {
-    Router::new().fallback(get_not_found)
+    Router::new().fallback(render_not_found)
 }
