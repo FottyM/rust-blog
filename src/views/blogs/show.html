@@ -10,7 +10,7 @@
   <img src="https://placehold.co/600x200" alt="Hero image for {{ post.blog.title }}" class="w-full h-auto object-cover">
   <div class="text-start pt-2">
     <h1 class="text-3xl font-bold text-start mb-2">{{ post.blog.title }}</h1>
-    <p class="text-gray-400 text-start text-xl mb-6">{{ post.blog.publish_date | date(format="%d.%m.%Y") }}</p>
+    <p class="text-gray-400 text-start text-xl mb-6">{{ post.blog.published_at | date(format="%d.%m.%Y") }}</p>
   </div>
   <div class="prose prose-invert max-w-none mt-4 mb-4">{{ post.blog.content | safe }}</div>
   <div class="flex items-center mt-4 mb-4">

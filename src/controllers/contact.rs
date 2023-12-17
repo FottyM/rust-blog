@@ -1,12 +1,19 @@
+use std::sync::Arc;
+
 use axum::{
+    body::Body,
+    extract::State,
     http::StatusCode,
     response::{Html, IntoResponse},
-    routing::get,
-    Router,
+    routing::{get, post},
+    Json, Router,
 };
 use tera::Context;
 
-use crate::views::TEMPLATES;
+use crate::{
+    models::contact_message::CreateContactMessageDto, services::contact_service, views::TEMPLATES,
+    AppState,
+};
 
 async fn contact() -> impl IntoResponse {
     let tera = TEMPLATES.clone();
@@ -19,6 +26,21 @@ async fn contact() -> impl IntoResponse {
     }
 }
 
+// async fn create_contact_message(// State(state): State<Arc<AppState>>,
+//     // Json(payload): Json<CreateContactMessageDto>,
+// ) -> impl IntoResponse {
+//     let response = contact_service::create_contact_message(payload, &state.pool).await;
+
+//     match response {
+//         Ok(_) => StatusCode::OK.into_response(),
+//         Err(err) => {
+//             println!("Error creating contact: {}", err);
+//             StatusCode::UNPROCESSABLE_ENTITY.into_response()
+//         }
+//     }
+// }
+
 pub fn get_contact_routes() -> Router {
     Router::new().route("/contact", get(contact))
+    // .route("/contact", post(create_contact_message))
 }

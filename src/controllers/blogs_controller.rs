@@ -1,7 +1,4 @@
-use crate::{
-    models::blog::{Blog, Status},
-    views::TEMPLATES,
-};
+use crate::{models::blog::Blog, views::TEMPLATES};
 use axum::{
     extract::Path,
     http::StatusCode,
@@ -25,11 +22,11 @@ async fn get_blogs() -> impl IntoResponse {
                 i,
                 "Blog one".to_string(),
                 "lorem ipsum".to_string(),
+                Some("2022-01-01".to_string()),
                 "2022-01-01".to_string(),
                 "2022-01-01".to_string(),
                 1,
                 None,
-                Status::default(),
             )
         })
         .collect();
@@ -72,11 +69,11 @@ async fn get_blog(Path(id): Path<u32>) -> impl IntoResponse {
             id,
             "Blog one".to_string(),
             "lorem ipsum".repeat(1_000).to_string(),
+            Some("2022-01-01".to_string()),
             "2022-01-01".to_string(),
             "2022-01-01".to_string(),
             1,
-            None,
-            Status::Published,
+            Some(1),
         ),
         comments: vec![Comment {
             author: "John Doe".to_string(),

@@ -19,7 +19,7 @@
     <img src="https://placehold.co/40x40" alt="Author's picture" class="w-24 h-24 rounded-full mr-4">
     <div>
       <h2 class="text-2xl text-soul-red mb-2">{{ post.title }}</h2>
-      <p class="text-sm text-gray-400 mb-4">By {{ post.author_id }} on {{ post.publish_date }}</p>
+      <p class="text-sm text-gray-400 mb-4">By {{ post.author_id }} on {{ post.published_at }}</p>
       <p class="mb-4">{{ post.content }}</p>
       <a href="blogs/{{ post.id | as_str }}" class="text-teal hover:underline hover:cursor-pointer">Read more...</a>
     </div>
