@@ -2,6 +2,7 @@
   "cSpell.words": [
     "autoescape",
     "axum",
+    "sqlx",
     "tera"
   ],
   "rust-analyzer.showUnlinkedFileNotification": false
