@@ -62,8 +62,8 @@ struct Post {
 }
 
 async fn render_blog(Path(id): Path<u32>) -> impl IntoResponse {
-    let tera = TEMPLATES.clone();
-    let mut context = Context::new();
+    let mut tera = TEMPLATES.clone();
+    let mut context = tera::Context::new();
 
     let post: Post = Post {
         blog: Blog::new(
@@ -87,6 +87,8 @@ async fn render_blog(Path(id): Path<u32>) -> impl IntoResponse {
     };
 
     context.insert("post", &post);
+
+    tera.full_reload().expect("Failed to reload templates");
 
     match tera.render("blogs/show.html", &context) {
         Ok(rendered) => Html(rendered).into_response(),

@@ -1,6 +1,6 @@
 use std::env;
 
-use axum::{http::StatusCode, routing, serve, Router};
+use axum::{routing, serve, Router};
 
 use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
 use std::sync::Arc;
@@ -42,6 +42,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing::info!("Listening on http://{}", listener.local_addr()?);
 
     serve(listener, app).await?;
-
     Ok(())
 }

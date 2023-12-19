@@ -14,6 +14,7 @@ pub struct Blog {
     pub status: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct CreateBlogDto {
     pub title: String,
     pub content: String,
@@ -34,6 +35,7 @@ impl CreateBlogDto {
     }
 }
 
+// TODO: This is dummy struct for testing
 impl Blog {
     pub fn new(
         id: u32,
