@@ -1,4 +1,6 @@
-use crate::{models::blog::Blog, views::TEMPLATES};
+use std::sync::Arc;
+
+use crate::{models::blog::Blog, views::TEMPLATES, AppState};
 use axum::{
     extract::Path,
     http::StatusCode,
@@ -60,7 +62,6 @@ struct Post {
 }
 
 async fn render_blog(Path(id): Path<u32>) -> impl IntoResponse {
-    // format!("Blog {}", id).into_response()
     let tera = TEMPLATES.clone();
     let mut context = Context::new();
 
@@ -96,7 +97,7 @@ async fn render_blog(Path(id): Path<u32>) -> impl IntoResponse {
     }
 }
 
-pub fn get_blogs_routes() -> Router {
+pub fn get_blogs_routes() -> Router<Arc<AppState>> {
     Router::new()
         .route("/", get(render_blogs))
         .route("/blogs", get(render_blogs))

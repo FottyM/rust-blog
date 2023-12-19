@@ -1,6 +1,6 @@
 use std::env;
 
-use axum::{serve, Router};
+use axum::{http::StatusCode, routing, serve, Router};
 
 use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
 use std::sync::Arc;
@@ -10,6 +10,7 @@ mod models;
 mod services;
 mod views;
 
+#[derive(Clone)]
 struct AppState {
     pool: Pool<Sqlite>,
 }
@@ -26,8 +27,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let state = Arc::new(AppState { pool });
 
     let app = Router::new()
-        .with_state(state)
-        .merge(controllers::get_all_routes());
+        .merge(controllers::get_all_routes())
+        .nest_service(
+            "/static",
+            routing::get_service(tower_http::services::ServeDir::new("./src/static")),
+        )
+        .with_state(state);
 
     let port = env::var("PORT").unwrap_or(String::from("3000"));
     let addr = format!("127.0.0.1:{}", port);

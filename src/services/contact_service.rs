@@ -18,7 +18,7 @@ pub async fn create_contact_message(
     .execute(pool)
     .await
     .map_err(|err| {
-        println!("Error creating contact: {}", err);
+        tracing::error!("Error creating contact: {}", err);
         err
     })
 }

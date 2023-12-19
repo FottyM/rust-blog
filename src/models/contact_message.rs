@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use sqlx::FromRow;
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
+#[derive(Debug, Serialize, Deserialize, sqlx::FromRow, Clone)]
 pub struct ContactMessage {
     pub id: u32,
     pub name: String,
@@ -18,12 +17,12 @@ pub struct CreateContactMessageDto {
     pub message: String,
 }
 
-impl CreateContactMessageDto {
-    pub fn new(name: String, email: String, message: String) -> Self {
+impl Default for CreateContactMessageDto {
+    fn default() -> Self {
         Self {
-            name,
-            email,
-            message,
+            name: String::new(),
+            email: String::new(),
+            message: String::new(),
         }
     }
 }

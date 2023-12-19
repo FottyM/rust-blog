@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use axum::{
     http::StatusCode,
     response::{Html, IntoResponse},
@@ -6,7 +8,7 @@ use axum::{
 };
 use tera::Context;
 
-use crate::views::TEMPLATES;
+use crate::{views::TEMPLATES, AppState};
 
 async fn render_about() -> impl IntoResponse {
     let tera = TEMPLATES.clone();
@@ -20,6 +22,6 @@ async fn render_about() -> impl IntoResponse {
     }
 }
 
-pub fn get_about_routes() -> Router {
+pub fn get_about_routes() -> Router<Arc<AppState>> {
     Router::new().route("/about", get(render_about))
 }
